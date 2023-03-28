@@ -1,0 +1,8 @@
+server:
+  port: 8383
+  servlet:
+    context-path: /serviceA
+
+spring:
+  profiles:
+    active: @spring.profiles.active@
