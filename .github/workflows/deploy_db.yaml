@@ -7,8 +7,8 @@ jobs:
   Create-Neon-Branch:
     uses: neondatabase/create-branch-action@v5.0.0
     with:
-      project_id: ${{ secrets.NEON_API_KEY }}
-      parent_id: ${{ secrets.NEON_API_KEY }}
+      project_id: ${{ secrets.NEON_PROJECT_ID }}
+      parent_id: ${{ secrets.NEON_PARENT_BRANCH_ID }}
       branch_name: ${{ github.ref_name }}
       api_key: ${{ secrets.NEON_API_KEY }}
       run: echo project_id ${{ steps.create-branch.outputs.project_id}} branch_id ${{ steps.create-branch.outputs.branch_id}}
