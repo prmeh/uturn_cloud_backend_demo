@@ -10,8 +10,8 @@ jobs:
       - uses: neondatabase/create-branch-action@v5.0.0
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
-          parent: ${{ secrets.NEON_PARENT_BRANCH_ID }}
-          branch_name: demo
+          parent_id: ${{ secrets.NEON_PARENT_BRANCH_ID }}
+          branch_name: ${{ github.head_ref || github.ref_name }}
           api_key: ${{ secrets.NEON_API_KEY }}
       - name: Branch name
-        run: echo running on branch demo
+        run: echo running on branch ${{ github.head_ref || github.ref_name }}
