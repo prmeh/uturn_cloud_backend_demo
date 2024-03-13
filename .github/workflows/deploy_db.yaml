@@ -7,5 +7,9 @@ jobs:
   Create-Neon-Branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Set branch name in env
-        run: echo "BRANCH=$(echo ${{ github.ref_name }} | sed 's/\//_/g')" >> $GITHUB_ENV
+      - uses: neondatabase/create-branch-action@v5.0.0
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          parent_id: ${{ secrets.NEON_PARENT_BRANCH_ID }}
+          branch_name: ${{ github.ref_name }}
+          api_key: ${{ secrets.NEON_API_KEY }}
