@@ -12,6 +12,8 @@ jobs:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           parent: ${{ secrets.NEON_PARENT_BRANCH_ID }}
           branch_name: ${{ github.head_ref || github.ref_name }}
+          database: uturn_dev
+          username: api_user
           api_key: ${{ secrets.NEON_API_KEY }}
       - name: Branch name
         run: echo running on branch ${{ github.head_ref || github.ref_name }}
