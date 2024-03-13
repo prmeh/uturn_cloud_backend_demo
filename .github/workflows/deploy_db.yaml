@@ -11,5 +11,7 @@ jobs:
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           parent_id: ${{ secrets.NEON_PARENT_BRANCH_ID }}
-          branch_name: ${{ github.ref_name }}
+          branch_name: ${GITHUB_REF##*/}
           api_key: ${{ secrets.NEON_API_KEY }}
+      - name: Branch name
+        run: echo running on branch ${GITHUB_REF##*/} project_id ${{ secrets.NEON_PROJECT_ID }} parent_id ${{ secrets.NEON_PARENT_BRANCH_ID }} 
