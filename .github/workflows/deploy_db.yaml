@@ -4,34 +4,11 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  Create-Neon-Branch:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: neondatabase/create-branch-action@v5.0.0
-        with:
-          project_id: ${{ secrets.NEON_PROJECT_ID }}
-          parent: ${{ secrets.NEON_PARENT_BRANCH_ID }}
-          branch_name: ${{ github.head_ref || github.ref_name }}
-          database: uturn_dev
-          username: api_user
-          api_key: ${{ secrets.NEON_API_KEY }}
-        id: create-branch  
-      - name: Branch name
-        run: echo running on branch ${{ github.head_ref || github.ref_name }}
-    outputs:
-      db_url: ${{ steps.create-branch.outputs.db_url }}
-      db_url_with_pooler: ${{ steps.create-branch.outputs.db_url_with_pooler }}
-      host: ${{ steps.create-branch.outputs.host }}
-      host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
-      branch_id: ${{ steps.create-branch.outputs.branch_id }}
-      password: ${{ steps.create-branch.outputs.password }} 
-
   Execute-seed-data:
     runs-on: ubuntu-latest
-    needs: Create-Neon-Branch
     steps:
       - name: Check working directory
-        run: cd ../../  # Print current working directory
+        run: cd .github/workflows  # Print current working directory
 
       - name: List files in directory
         run: ls -l
