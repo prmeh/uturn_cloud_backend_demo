@@ -42,4 +42,4 @@ jobs:
         run: ls -l
 
       - name: Inserting seed data
-        run: psql 'postgresql://api_user:GAfMRQJwL7S2@ep-shrill-dust-a2v5t7y2-pooler.eu-central-1.aws.neon.tech/uturn_dev?sslmode=require' -f uturn_cloud_backend_demo/seed.sql    
+        run: psql 'postgresql://api_user:GAfMRQJwL7S2@ep-shrill-dust-a2v5t7y2-pooler.eu-central-1.aws.neon.tech/uturn_dev?sslmode=require' -f seed.sql    
