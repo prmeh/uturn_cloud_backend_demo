@@ -28,7 +28,7 @@ jobs:
       host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
       branch_id: ${{ steps.create-branch.outputs.branch_id }}
       password: ${{ steps.create-branch.outputs.password }}
-      database_name: ${{ github.head_ref || github.ref_name }}
+      database_name: demo
 
   Execute-seed-data:
     runs-on: ubuntu-latest
@@ -47,4 +47,4 @@ jobs:
         run: echo "Host with pooler ${{ needs.create_preview_branch.outputs.host_with_pooler }}"
         
       - name: Display info
-        run: echo postgresql://api_user:${{ needs.create-branch.outputs.password }}@${{ needs.create-branch.outputs.host_with_pooler}}/${{ needs.create-branch.outputs.database_name}}?sslmode=require
+        run: echo postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/${{ needs.create_preview_branch.outputs.database_name }}?sslmode=require
