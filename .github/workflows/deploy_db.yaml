@@ -1,7 +1,7 @@
 name: Create Neon Branch with GitHub Actions Demo
 run-name: Create a Neon Branch 🚀
 on:
-  pull_request:
+  push:
     branches: [ main ]
 jobs:
   Create-Neon-Branch:
@@ -27,3 +27,16 @@ jobs:
       host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
       branch_id: ${{ steps.create-branch.outputs.branch_id }}
       password: ${{ steps.create-branch.outputs.password }}
+    
+  Execute-seed-data:
+    runs-on: ubuntu-latest
+    needs: Create-Neon-Branch
+    steps:
+      - name: Check working directory
+        run: cd ../../  # Print current working directory
+
+      - name: List files in directory
+        run: ls -l
+
+      - name: Inserting seed data
+        run: psql 'postgresql://api_user:GAfMRQJwL7S2@ep-shrill-dust-a2v5t7y2-pooler.eu-central-1.aws.neon.tech/uturn_dev?sslmode=require' -f uturn_cloud_backend_demo/seed.sql    
