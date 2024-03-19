@@ -41,5 +41,8 @@ jobs:
       - name: List files in directory
         run: ls -l
 
+      - name: Display info
+        run: echo ${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }} 
+
       - name: Inserting seed data
         run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }}/demo?sslmode=require' -f seed.sql    
