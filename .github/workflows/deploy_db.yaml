@@ -19,7 +19,7 @@ jobs:
       - name: Branch name
         run: echo running on branch ${{ github.head_ref || github.ref_name }}
       - name: Check outoput  
-        run: echo hostname with pooler ${{ steps.create-branch.outputs.host_with_pooler }}
+        run: echo hostname with pooler ${{ steps.create-branch.outputs.host_with_pooler }} and ${{ steps.create-branch.outputs.password }}
     outputs:
       db_url: ${{ steps.create-branch.outputs.db_url }}
       db_url_with_pooler: ${{ steps.create-branch.outputs.db_url_with_pooler }}
@@ -45,4 +45,4 @@ jobs:
         run: echo ${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }} 
 
       - name: Inserting seed data
-        run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }}/demo?sslmode=require' -f seed.sql    
+        run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql    
