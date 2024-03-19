@@ -43,5 +43,8 @@ jobs:
       - name: List files in directory
         run: ls -l
 
+      - name: Get host_with_pooler from create_preview_branch job
+        run: echo "Host with pooler: ${{ needs.create_preview_branch.outputs.host_with_pooler }}"
+        
       - name: Display info
         run: echo postgresql://api_user:${{ needs.create-branch.outputs.password }}@${{ needs.create-branch.outputs.host_with_pooler}}/${{ needs.create-branch.outputs.database_name}}?sslmode=require
