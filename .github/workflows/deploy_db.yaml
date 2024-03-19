@@ -19,14 +19,16 @@ jobs:
       - name: Branch name
         run: echo running on branch ${{ github.head_ref || github.ref_name }}
       - name: Check outoput
-        run: echo hostname with pooler ${{ steps.create_preview_branch.outputs.host_with_pooler }} and ${{ steps.create_preview_branch.outputs.password }}
+        run: echo hostname with pooler ${{ steps.create-branch.outputs.host_with_pooler }} and ${{ steps.create-branch.outputs.password }}
+      
     outputs:
-      db_url: ${{ steps.create_preview_branch.outputs.db_url }}
-      db_url_with_pooler: ${{ steps.create_preview_branch.outputs.db_url_with_pooler }}
-      host: ${{ steps.create_preview_branch.outputs.host }}
-      host_with_pooler: ${{ steps.create_preview_branch.outputs.host_with_pooler }}
-      branch_id: ${{ steps.create_preview_branch.outputs.branch_id }}
-      password: ${{ steps.create_preview_branch.outputs.password }}
+      db_url: ${{ steps.create-branch.outputs.db_url }}
+      db_url_with_pooler: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+      host: ${{ steps.create-branch.outputs.host }}
+      host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
+      branch_id: ${{ steps.create-branch.outputs.branch_id }}
+      password: ${{ steps.create-branch.outputs.password }}
+      database_name: ${{ github.head_ref || github.ref_name }}
 
   Execute-seed-data:
     runs-on: ubuntu-latest
@@ -42,7 +44,4 @@ jobs:
         run: ls -l
 
       - name: Display info
-        run: echo postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler}}/demo?sslmode=require
-
-      - name: Inserting seed data
-        run: psql 'postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql
+        run: echo postgresql://api_user:${{ needs.create-branch.outputs.password }}@${{ needs.create-branch.outputs.host_with_pooler}}/${{ needs.create-branch.outputs.database_name}}?sslmode=require
