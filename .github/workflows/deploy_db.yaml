@@ -11,7 +11,7 @@ jobs:
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           parent: ${{ secrets.NEON_PARENT_BRANCH_ID }}
-          branch_name: ${{ github.head_ref || github.ref_name }}
+          branch_name: demo
           database: uturn_dev
           username: api_user
           api_key: ${{ secrets.NEON_API_KEY }}
@@ -42,4 +42,4 @@ jobs:
         run: ls -l
 
       - name: Inserting seed data
-        run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }}/${{ github.head_ref || github.ref_name }}?sslmode=require' -f seed.sql    
+        run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }}/demo?sslmode=require' -f seed.sql    
