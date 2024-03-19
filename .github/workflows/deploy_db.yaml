@@ -42,7 +42,7 @@ jobs:
         run: ls -l
 
       - name: Display info
-        run: echo ${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host }} 
+        run: echo postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require 
 
       - name: Inserting seed data
         run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql    
