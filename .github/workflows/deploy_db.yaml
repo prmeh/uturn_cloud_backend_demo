@@ -4,11 +4,9 @@ on:
   push:
     branches: [ main ]
 jobs:
-  Create-Neon-Branch:
+  create_preview_branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Create_database
-      - id: create_db
       - uses: neondatabase/create-branch-action@v5.0.0
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
@@ -20,20 +18,37 @@ jobs:
         id: create-branch
       - name: Branch name
         run: echo running on branch ${{ github.head_ref || github.ref_name }}
-      - name: Check outoput  
-        run: echo hostname with pooler ${{ steps.create-branch.outputs.host_with_pooler }} and ${{ steps.create-branch.outputs.password }}
+      - name: Check outoput
+        run: echo hostname with pooler ${{ steps.create_preview_branch.outputs.host_with_pooler }} and ${{ steps.create_preview_branch.outputs.password }}
       - name: Checkout
         uses: actions/checkout@v2
       - name: Display info
-        run: echo postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require  
+        run: echo postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require
       - name: Inserting seed data
-        if: steps.create_db.outcome == 'success'
-        run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql      
+        run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql
     outputs:
-      db_url: ${{ steps.create-branch.outputs.db_url }}
-      db_url_with_pooler: ${{ steps.create-branch.outputs.db_url_with_pooler }}
-      host: ${{ steps.create-branch.outputs.host }}
-      host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
-      branch_id: ${{ steps.create-branch.outputs.branch_id }}
-      password: ${{ steps.create-branch.outputs.password }}
-      
+      db_url: ${{ steps.create_preview_branch.outputs.db_url }}
+      db_url_with_pooler: ${{ steps.create_preview_branch.outputs.db_url_with_pooler }}
+      host: ${{ steps.create_preview_branch.outputs.host }}
+      host_with_pooler: ${{ steps.create_preview_branch.outputs.host_with_pooler }}
+      branch_id: ${{ steps.create_preview_branch.outputs.branch_id }}
+      password: ${{ steps.create_preview_branch.outputs.password }}
+
+  Execute-seed-data:
+    runs-on: ubuntu-latest
+    needs: create_preview_branch
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Check working directory
+        run: pwd  # Print current working directory
+
+      - name: List files in directory
+        run: ls -l
+
+      - name: Display info
+        run: echo postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler}}/demo?sslmode=require
+
+      - name: Inserting seed data
+        run: psql 'postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql
