@@ -31,5 +31,5 @@ jobs:
     needs: Create-Neon-Branch
     steps:
       - name: Inserting seed data
-        run: psql 'postgresql://api_user:${{ steps.outputs.password }}@${{ steps.outputs.host_with_pooler }}/${{ github.head_ref || github.ref_name }}?sslmode=require' -f seed.sql
+        run: psql 'postgresql://api_user:GAfMRQJwL7S2@ep-shrill-dust-a2v5t7y2-pooler.eu-central-1.aws.neon.tech/uturn_dev?sslmode=require' -f seed.sql
         
