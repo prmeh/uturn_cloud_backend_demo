@@ -7,6 +7,8 @@ jobs:
   Create-Neon-Branch:
     runs-on: ubuntu-latest
     steps:
+      - name: Create_database
+      - id: create_db
       - uses: neondatabase/create-branch-action@v5.0.0
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
@@ -25,6 +27,7 @@ jobs:
       - name: Display info
         run: echo postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require  
       - name: Inserting seed data
+        if: steps.create_db.outcome == 'success'
         run: psql 'postgresql://api_user:${{ steps.create-branch.outputs.password }}@${{ steps.create-branch.outputs.host_with_pooler }}/demo?sslmode=require' -f seed.sql      
     outputs:
       db_url: ${{ steps.create-branch.outputs.db_url }}
