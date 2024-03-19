@@ -33,4 +33,4 @@ jobs:
       - env:
           OUTPUT1: ${{needs.create-branch.outputs.host}}
           OUTPUT2: ${{needs.create-branch.outputs.branch_id}}
-        run: echo "$OUTPUT1 $OUTPUT2"
+        run: echo host and branch id are ${{OUTPUT1}} ${{OUTPUT2}}
