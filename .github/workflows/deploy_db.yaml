@@ -48,3 +48,6 @@ jobs:
         
       - name: Display info
         run: echo postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/${{ needs.create_preview_branch.outputs.database_name }}?sslmode=require
+
+      - name: Inserting seed data
+        run: psql 'postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/${{ needs.create_preview_branch.outputs.database_name }}?sslmode=require' -f seed.sql
