@@ -33,7 +33,7 @@ jobs:
     needs: Create-Neon-Branch
     steps:
       - name: Check working directory
-        run: cd ../../  # Print current working directory
+        run: pwd  # Print current working directory
 
       - name: List files in directory
         run: ls -l
