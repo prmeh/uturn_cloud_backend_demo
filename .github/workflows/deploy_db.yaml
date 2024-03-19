@@ -28,7 +28,7 @@ jobs:
       host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
       branch_id: ${{ steps.create-branch.outputs.branch_id }}
       password: ${{ steps.create-branch.outputs.password }}
-      database_name: demo
+      database_name: uturn_dev
 
   Execute-seed-data:
     runs-on: ubuntu-latest
