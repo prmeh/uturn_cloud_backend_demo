@@ -4,15 +4,26 @@ on:
   pull_request:
     branches: [ main ]
 jobs:
-  Execute-seed-data:
+  Create-Neon-Branch:
     runs-on: ubuntu-latest
     steps:
-      - name: Check working directory
-        run: cd .github/workflows  # Print current working directory
-
-      - name: List files in directory
-        run: ls -l
-        
-      - name: Inserting seed data
-        run: psql 'postgresql://api_user:GAfMRQJwL7S2@ep-shrill-dust-a2v5t7y2-pooler.eu-central-1.aws.neon.tech/uturn_dev?sslmode=require' -f ../../seed.sql
-        
+      - uses: neondatabase/create-branch-action@v5.0.0
+        with:
+          project_id: ${{ secrets.NEON_PROJECT_ID }}
+          parent: ${{ secrets.NEON_PARENT_BRANCH_ID }}
+          branch_name: ${{ github.head_ref || github.ref_name }}
+          database: uturn_dev
+          username: api_user
+          api_key: ${{ secrets.NEON_API_KEY }}
+        id: create-branch
+      - name: Branch name
+        run: echo running on branch ${{ github.head_ref || github.ref_name }}
+      - name: Check outoput  
+        run: echo hostname with pooler ${{ steps.create-branch.outputs.host_with_pooler }}
+    outputs:
+      db_url: ${{ steps.create-branch.outputs.db_url }}
+      db_url_with_pooler: ${{ steps.create-branch.outputs.db_url_with_pooler }}
+      host: ${{ steps.create-branch.outputs.host }}
+      host_with_pooler: ${{ steps.create-branch.outputs.host_with_pooler }}
+      branch_id: ${{ steps.create-branch.outputs.branch_id }}
+      password: ${{ steps.create-branch.outputs.password }}
