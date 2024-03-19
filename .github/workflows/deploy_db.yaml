@@ -30,7 +30,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: Create-Neon-Branch
     steps:
-      - env:
-          OUTPUT1: ${{needs.create-branch.outputs.host}}
-          OUTPUT2: ${{needs.create-branch.outputs.branch_id}}
-        run: echo host and branch id are "$OUTPUT1 $OUTPUT2"
+      - name: Create Branch output
+        run: echo host and branch id are ${{needs.create-branch.outputs.host}} ${{needs.create-branch.outputs.branch_id}}
+        
