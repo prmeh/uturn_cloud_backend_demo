@@ -18,5 +18,5 @@ jobs:
           api_key: ${{ secrets.NEON_API_KEY }}
           
       - name: Deleted neon db branch
-        run: echo The PR was successfully merged from ${{ github.head_ref || github.ref_name }}.
+        run: echo Deleting databse branch ${{ github.head_ref || github.ref_name }} from neon console.
     
