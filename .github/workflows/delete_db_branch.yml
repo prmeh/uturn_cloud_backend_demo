@@ -1,0 +1,15 @@
+name: Delete Neon Branch with GitHub Actions Demo
+run-name: Delete a Neon Branch 🚀
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo The PR was successfully merged from ${{ github.head_ref || github.ref_name }}.
