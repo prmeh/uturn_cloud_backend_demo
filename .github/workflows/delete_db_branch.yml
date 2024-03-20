@@ -1,5 +1,5 @@
-name: Delete Neon Branch with GitHub Actions Demo
-run-name: Delete a Neon Branch ${{ github.head_ref || github.ref_name }}
+name: Delete Neon Branch 
+run-name: Delete Neon Branch ${{ github.head_ref || github.ref_name }}
 on:
   pull_request:
     branches:
