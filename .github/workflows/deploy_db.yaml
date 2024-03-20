@@ -1,5 +1,5 @@
-name: Create Neon Branch with GitHub Actions Demo
-run-name: Create a Neon Branch 🚀
+name: Create Neon Branch
+run-name: Create Neon Branch ${{ github.head_ref || github.ref_name }} 🚀
 on:
   pull_request:
     branches: [ main ]
