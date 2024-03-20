@@ -1,5 +1,5 @@
 name: Delete Neon Branch with GitHub Actions Demo
-run-name: Delete a Neon Branch :fire:
+run-name: Delete a Neon Branch
 on:
   pull_request:
     branches:
