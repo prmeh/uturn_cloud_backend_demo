@@ -1,7 +1,7 @@
 name: Create Neon Branch with GitHub Actions Demo
 run-name: Create a Neon Branch 🚀
 on:
-  push:
+  pull_request:
     branches: [ main ]
 jobs:
   create_preview_branch:
@@ -11,14 +11,14 @@ jobs:
         with:
           project_id: ${{ secrets.NEON_PROJECT_ID }}
           parent: ${{ secrets.NEON_PARENT_BRANCH_ID }}
-          branch_name: demo
+          branch_name: ${{ github.head_ref || github.ref_name }}
           database: uturn_dev
           username: api_user
           api_key: ${{ secrets.NEON_API_KEY }}
         id: create-branch
       - name: Branch name
         run: echo running on branch ${{ github.head_ref || github.ref_name }}
-      - name: Check outoput
+      - name: Check output
         run: echo hostname with pooler ${{ steps.create-branch.outputs.host_with_pooler }} and ${{ steps.create-branch.outputs.password }}
       
     outputs:
@@ -37,17 +37,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Check working directory
-        run: pwd  # Print current working directory
-
-      - name: List files in directory
-        run: ls -l
-
-      - name: Get host_with_pooler from create_preview_branch job
-        run: echo "Host with pooler ${{ needs.create_preview_branch.outputs.host_with_pooler }}"
-        
-      - name: Display info
-        run: echo postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/${{ needs.create_preview_branch.outputs.database_name }}?sslmode=require
-
+      
       - name: Inserting seed data
         run: psql 'postgresql://api_user:${{ needs.create_preview_branch.outputs.password }}@${{ needs.create_preview_branch.outputs.host_with_pooler }}/${{ needs.create_preview_branch.outputs.database_name }}?sslmode=require' -f seed.sql
